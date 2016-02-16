@@ -2,7 +2,9 @@
 
 #include "renderer.h"
 
-Renderer::Renderer(){}
+Renderer::Renderer(){
+	backgroundimage = nullptr;
+}
 
 void Renderer::setup()
 {
@@ -16,6 +18,10 @@ void Renderer::setup()
 	//Param de la luminosite
 	ShowGui = true;
 
+
+	//ImporterLimage
+	imageImport("vray_chuimo_FHD_WM.jpg", backgroundimage);
+	
 	LAMB_R = 255;
 	LAMB_G = 255;
 	LAMB_B = 255;
@@ -62,10 +68,10 @@ void Renderer::setup()
 
 	// chargement du modèle 3D
 	Model3D1 = new ofxAssimpModelLoader();
-	Model3D1->loadModel("baby.obj");
+	Model3D1->loadModel("Mickey_Mouse.obj");
 	
 	Model3D2 = new ofxAssimpModelLoader();
-	Model3D2->loadModel("cyclops10.obj");
+	Model3D2->loadModel("pony.obj");
 	
 	// création d'une lumière
 	light = new ofLight();
@@ -79,6 +85,9 @@ void Renderer::setup()
 
 void Renderer::draw()
 {
+	//glPolygonMode(GL_BACK, GL_FILL);
+	//backgroundimage->draw(0, 0, 1260, 860);
+	//glPolygonMode(GL_FRONT, GL_FILL);
 	ofBackgroundGradient(ofColor(127), ofColor(32));
 
 	// rendre le contenu de la scène
@@ -126,6 +135,8 @@ void Renderer::drawScene()
 	// positionner la lumière
 	ofSetColor(0);
 	ofDrawEllipse(LAMBx, LAMBy, LAMBz,5,5);
+
+
 	light->setPosition(LAMBx, LAMBy, LAMBz);
 	light->setAmbientColor(ofColor(LAMB_R, LAMB_G, LAMB_B));
 
@@ -138,7 +149,8 @@ void Renderer::drawScene()
 	ofScale(1, isFlipAxisY ? -1 : 1);
 
 	// transformer l'origine de la scène au milieu de la fenêtre d'affichage
-	ofTranslate(xCenter + xOffset, yCenter, zOffset);
+	//ofTranslate(xCenter + xOffset, yCenter, zOffset);
+	ofTranslate(ORIPosX + xOffset, ORIPosY, zOffset);
 
 	//rotation en Y de la scène
 	ofRotate(yOffset, 0, 1, 0);
@@ -181,7 +193,9 @@ void Renderer::drawModel()
 	Model3D1->setScale(MD3Scale, MD3Scale, MD3Scale);
 
 	Model3D1->setPosition(MD3PosX, MD3PosY, MD3PosZ);
+	//Model3D1->draw(OF_MESH_FILL);
 	Model3D1->draw(OF_MESH_FILL);
+
 	ofPopMatrix();
 	
 
@@ -200,8 +214,11 @@ void Renderer::drawModel()
 
 	Model3D2->setScale(MD3Scale2, MD3Scale2, MD3Scale2);
 
+
 	Model3D2->setPosition(MD3PosX2, MD3PosY2, MD3PosZ2);
-	Model3D2->draw(OF_MESH_FILL);
+	
+	Model3D2->draw(OF_MESH_WIREFRAME);
+
 	ofPopMatrix();
 }
 
@@ -296,8 +313,8 @@ void Renderer::setupGui()
 	groupModele3D2.add(MD3RotY2.set("Rotation en Y", 135, -360, 360));
 	groupModele3D2.add(MD3RotZ2.set("Rotation en Z", 14, -360, 360));
 	//groupModele3D.add(MD3Apha.set("Apha", 255, 0, 255));
-
 	gui.add(groupModele3D2);
+
 	groupdessinVectoriel.setName("Outils dessin vectoriel");
 	groupdessinVectoriel.add(red.set("Red", 255, 0, 255));
 	groupdessinVectoriel.add(blue.set("Blue", 255, 0, 255));
@@ -309,12 +326,30 @@ void Renderer::setupGui()
 	groupdessinVectoriel.add(rectangleButton.set("Draw Rectangle", false));
 	groupdessinVectoriel.add(ellipseButton.set("Draw Ellipse", false));
 	groupdessinVectoriel.add(shapeAreFilled.set("Fill shapes", true));
-
 	gui.add(groupdessinVectoriel);
+
+
+	groupOrigineScene.setName("Modification Origine scene");
+	groupOrigineScene.add(ORIPosX.set("Position X", ofGetWidth()/2, 0, ofGetWidth() ));
+	groupOrigineScene.add(ORIPosY.set("Position Y", ofGetHeight() / 2,0, ofGetHeight() ));
+	gui.add(groupOrigineScene);
 
 	gui.add(exportButton.setup("Export Image"));
 	gui.add(clearButton.setup("Clear window"));
-
-
 	
+}
+
+void Renderer::imageImport(const string fileName, ofImage * & imageDestination)
+{
+	if (imageDestination != nullptr)
+	{
+		ofLog() << "<delete image: " << imageDestination << ">";
+		delete imageDestination;
+	}
+
+	imageDestination = new ofImage();
+
+	imageDestination->load(fileName);
+
+	ofLog() << "<import image: " << fileName << " into: " << imageDestination << ">";
 }

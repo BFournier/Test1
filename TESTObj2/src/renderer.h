@@ -12,6 +12,10 @@ class Renderer
 
 public:
 
+
+	ofImage * backgroundimage;
+	void imageImport(const string fileName, ofImage * & imageDestination);
+
 	EnumObject DefObj;
 	StructObjectLocator * shape;
 	ofVec3f * vectorOrigin;
@@ -29,13 +33,13 @@ public:
 	ofNode * node;
 
 	//GUI
-	ofParameterGroup groupAmbiant, groupModele3D, groupModele3D2, groupdessinVectoriel;
+	ofParameterGroup groupAmbiant, groupModele3D, groupModele3D2, groupdessinVectoriel, groupOrigineScene;
 	ofxPanel gui;
 	ofxButton exportButton;
 	ofxButton clearButton;
 
 	bool ShowGui; 
-	ofParameter<float> LAMBx, LAMBy, LAMBz, MD3ScaleX, MD3ScaleY, MD3ScaleZ, MD3Scale, MD3PosX, MD3PosZ, MD3PosY;
+	ofParameter<float> LAMBx, LAMBy, LAMBz, MD3ScaleX, MD3ScaleY, MD3ScaleZ, MD3Scale, MD3PosX, MD3PosZ, MD3PosY, ORIPosX, ORIPosY;
 	ofParameter<int> MD3Red, MD3Green, MD3Blue, MD3Apha, MD3RotX, MD3RotY, MD3RotZ;
 
 	ofParameter<float>MD3ScaleX2, MD3ScaleY2, MD3ScaleZ2, MD3Scale2, MD3PosX2, MD3PosZ2, MD3PosY2;
