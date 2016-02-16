@@ -1,0 +1,25 @@
+<Menu_base_1>
+	<Red>255</Red>
+	<Green>255</Green>
+	<Blue>255</Blue>
+	<Alpha>255</Alpha>
+	<Radius>5</Radius>
+	<Fill_shapes>1</Fill_shapes>
+<Menu_de_base_1>
+		<int_slider>0</int_slider>
+		<Red>255</Red>
+		<Green>255</Green>
+		<Blue>255</Blue>
+		<Alpha>255</Alpha>
+		<Radius>5</Radius>
+		<Fill_shapes>1</Fill_shapes>
+	<Lumiere_ambiante>
+			<X>0</X>
+			<y>0</y>
+			<z>0</z>
+			<Rouge>255</Rouge>
+			<Vert>255</Vert>
+			<Bleu>255</Bleu>
+		</Lumiere_ambiante>
+	</Menu_de_base_1>
+</Menu_base_1>
